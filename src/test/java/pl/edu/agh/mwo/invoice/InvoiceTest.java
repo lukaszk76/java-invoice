@@ -59,6 +59,7 @@ public class InvoiceTest {
 		invoice.addProduct(new DairyProduct("Kefir", new BigDecimal("100")));
 		// tax: 2.30
 		invoice.addProduct(new OtherProduct("Piwko", new BigDecimal("10")));
+		System.out.println(invoice.getTax());
 		Assert.assertThat(new BigDecimal("10.30"), Matchers.comparesEqualTo(invoice.getTax()));
 	}
 
