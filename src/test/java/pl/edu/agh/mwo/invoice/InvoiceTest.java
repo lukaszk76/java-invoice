@@ -8,7 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.agh.mwo.invoice.Invoice;
+import pl.edu.agh.mwo.invoice.product.BottleOfWine;
 import pl.edu.agh.mwo.invoice.product.DairyProduct;
+import pl.edu.agh.mwo.invoice.product.FuelCanister;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.Product;
 import pl.edu.agh.mwo.invoice.product.TaxFreeProduct;
@@ -139,4 +141,18 @@ public class InvoiceTest {
     	int position = printText.indexOf("\n");
         Assert.assertTrue(printText.substring(0,14).equals("Faktura numer ") && printText.substring(position).equals("\nChleb 4 szt. 5 zł\nLiczba pozycji: 1"));
     }
+    
+    @Test
+    public void testExcise() {
+    	// 2x chleb - price with tax: 10
+        invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+        // 3x chedar - price with tax: 32.40
+        invoice.addProduct(new DairyProduct("Chedar", new BigDecimal("10")), 3);
+        // 2x merlot - price with tax and excise: 65,732 (VAT + excise)
+        invoice.addProduct(new BottleOfWine("Merlot", new BigDecimal("22.20")), 2);
+        // 5x ON - price with tax and excise: 52,55 (no VAT - only excise)
+        invoice.addProduct(new FuelCanister("ON", new BigDecimal("4.95")), 5);
+        Assert.assertThat(new BigDecimal("160.682"), Matchers.comparesEqualTo(invoice.getGrossTotal()));
+    }
+    
 }
