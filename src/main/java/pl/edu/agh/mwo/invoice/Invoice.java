@@ -19,10 +19,17 @@ public class Invoice {
     }
 
     public void addProduct(Product product, Integer quantity) {
+        int existingQuantity;
         if (product == null || quantity <= 0) {
             throw new IllegalArgumentException();
         }
-        products.put(product, quantity);
+        try {
+            existingQuantity = products.get(product);
+        } catch (Exception e) {
+            existingQuantity = 0;
+        }
+        
+        products.put(product, existingQuantity + quantity);
     }
 
     public BigDecimal getNetTotal() {

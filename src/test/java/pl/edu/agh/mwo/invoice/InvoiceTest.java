@@ -127,6 +127,16 @@ public class InvoiceTest {
         // 1000x pinezka - price with tax: 12.30
         invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 1000);
         String printText = invoice.print();
-        Assert.assertTrue(printText.equals("Faktura numer 8\nChedar 3 szt. 10 zł\nChleb 2 szt. 5 zł\nPinezka 1000 szt. 0.01 zł\nLiczba pozycji: 3"));
+        int position = printText.indexOf("\n");
+        Assert.assertTrue(printText.substring(0,14).equals("Faktura numer ") && printText.substring(position).equals("\nChedar 3 szt. 10 zł\nChleb 2 szt. 5 zł\nPinezka 1000 szt. 0.01 zł\nLiczba pozycji: 3"));
+    }
+    
+    @Test
+    public void testDuplicates() {
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+    	String printText = invoice.print();
+    	int position = printText.indexOf("\n");
+        Assert.assertTrue(printText.substring(0,14).equals("Faktura numer ") && printText.substring(position).equals("\nChleb 4 szt. 5 zł\nLiczba pozycji: 1"));
     }
 }
