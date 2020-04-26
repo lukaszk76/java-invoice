@@ -117,4 +117,16 @@ public class InvoiceTest {
     	int number2 = new Invoice().getNumber();
     	Assert.assertTrue((number2-number1)==1);
     }
+    
+    @Test
+    public void testPrinting() {
+    	// 2x chleb - price with tax: 10
+        invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+        // 3x chedar - price with tax: 32.40
+        invoice.addProduct(new DairyProduct("Chedar", new BigDecimal("10")), 3);
+        // 1000x pinezka - price with tax: 12.30
+        invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 1000);
+        String printText = invoice.print();
+        Assert.assertTrue(printText.equals("Faktura numer 8\nChedar 3 szt. 10 zł\nChleb 2 szt. 5 zł\nPinezka 1000 szt. 0.01 zł\nLiczba pozycji: 3"));
+    }
 }

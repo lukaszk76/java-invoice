@@ -2,7 +2,7 @@ package pl.edu.agh.mwo.invoice.product;
 
 import java.math.BigDecimal;
 
-public abstract class Product {
+public abstract class Product implements Comparable {
     private final String name;
 
     private final BigDecimal price;
@@ -37,5 +37,10 @@ public abstract class Product {
 
     public BigDecimal getPriceWithTax() {
         return price.multiply(taxPercent).add(price);
+    }
+    
+    @Override
+    public int compareTo(Object o) {
+        return this.getName().compareTo(((Product) o).getName());
     }
 }

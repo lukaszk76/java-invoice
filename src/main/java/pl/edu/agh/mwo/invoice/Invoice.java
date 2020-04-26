@@ -3,10 +3,11 @@ package pl.edu.agh.mwo.invoice;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    private Map<Product, Integer> products = new HashMap<Product, Integer>();
+    private Map<Product, Integer> products = new TreeMap<Product, Integer>();
     private int number = 0;
     
     public Invoice() {
@@ -48,5 +49,19 @@ public class Invoice {
 
     public int getNumber() {
         return this.number;
+    }
+
+    public String print() {
+        String printText = "Faktura numer " + this.getNumber();
+        int counter = 0;
+        for (Product product : products.keySet()) {
+            counter++;
+            printText = printText + "\n" 
+                + product.getName() + " " 
+                + products.get(product) + " szt. " 
+                + product.getPrice() + " zł";
+        }
+        printText = printText + "\nLiczba pozycji: " + counter;
+        return printText;
     }
 }
