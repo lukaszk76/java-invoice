@@ -1,4 +1,5 @@
 language: java
-script:
+
+script: 
   - mvn checkstyle:check
   - mvn test
