@@ -10,8 +10,9 @@ public class Invoice {
     private int number = 0;
     
     public Invoice() {
-    	this.number = new InvoiceNumber().getInvoiceNumber();
+        this.number = new InvoiceNumber().getInvoiceNumber();
     }
+    
     public void addProduct(Product product) {
         addProduct(product, 1);
     }
@@ -45,7 +46,7 @@ public class Invoice {
         return totalGross;
     }
 
-	public int getNumber() {
-		return this.number;
-	}
+    public int getNumber() {
+        return this.number;
+    }
 }
